@@ -66,7 +66,7 @@ class ModalPortal extends React.Component {
 
         newState.modalPortalDisplayed = !this.state.modalPortalDisplayed;
 
-        if (modalToDisplay && callback) {
+        if (modalToDisplay) {
             newState.closeCallback = callback;
             newState.modalToDisplay = modalToDisplay;
         }
