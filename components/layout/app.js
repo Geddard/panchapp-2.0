@@ -25,7 +25,7 @@ class App extends React.Component {
         return {
             location: _.get(this.props, 'location.pathname', '').replace('/', ''),
             sideBarOpened: this.state.sideBarOpened,
-            toggleSideBar: this.toggleSideBar.bind(this)
+            toggleSideBar: this.toggleSideBar
         };
     }
 
@@ -52,7 +52,7 @@ class App extends React.Component {
         });
     }
 
-    toggleSideBar() {
+    toggleSideBar = () => {
         this.setState({
             sideBarOpened: !this.state.sideBarOpened
         });

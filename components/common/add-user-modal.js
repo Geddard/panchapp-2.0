@@ -20,7 +20,6 @@ class AddUserModal extends React.Component {
             loading: false,
             newUserName: ''
         };
-        this.getSubmitButtonClass.bind(this);
     }
 
     render() {
@@ -39,7 +38,7 @@ class AddUserModal extends React.Component {
     renderSubmitButton() {
         var props = {
             className: this.getSubmitButtonClass(),
-            onClick: this.handleSubmitButtonClick.bind(this),
+            onClick: this.handleSubmitButtonClick,
             type: 'submit'
         };
 
@@ -54,7 +53,7 @@ class AddUserModal extends React.Component {
         return {
             className: 'add-user-modal--input',
             maxLength: 30,
-            onChange: this.updateFieldValue.bind(this),
+            onChange: this.updateFieldValue,
             placeholder: 'New user\'s name',
             type: 'text'
         };
@@ -67,7 +66,7 @@ class AddUserModal extends React.Component {
         });
     }
 
-    handleSubmitButtonClick() {
+    handleSubmitButtonClick = () => {
         var state = this.state;
 
         if (state.newUserName.length > 1) {
@@ -80,7 +79,7 @@ class AddUserModal extends React.Component {
         }
     }
 
-    updateFieldValue(event) {
+    updateFieldValue = (event) => {
         this.setState({
             newUserName: event.target.value
         });

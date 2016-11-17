@@ -45,7 +45,10 @@ gulp.task('bundle', function () {
             entries: 'main.js', debug: true,
             paths: [path.join(__dirname)],
         })
-        .transform('babelify', {presets: ['es2015', 'react']})
+        .transform('babelify', {
+            plugins: ['transform-class-properties'],
+            presets: ['es2015', 'react']
+        })
         .bundle()
         .on('error', handleErrors)
         .pipe(source('main.js'))
@@ -58,7 +61,10 @@ gulp.task('bundle-prod', function () {
             entries: 'main.js',
             paths: [path.join(__dirname)],
         })
-        .transform('babelify', {presets: ['es2015', 'react']})
+        .transform('babelify', {
+            plugins: ['transform-class-properties'],
+            presets: ['es2015', 'react']
+        })
         .bundle()
         .pipe(source('main.js'))
         .pipe(streamify(uglify()))

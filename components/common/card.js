@@ -18,9 +18,6 @@ class Card extends React.Component {
         this.state = {
             hidden: true
         };
-
-        this.getClass.bind(this);
-        this.isReallyOld.bind(this);
     }
 
     render() {
@@ -40,7 +37,7 @@ class Card extends React.Component {
         );
     }
 
-    getClass() {
+    getClass = () => {
         return classNames({
             'card': true,
             'card_really-old': this.isReallyOld()
@@ -50,7 +47,7 @@ class Card extends React.Component {
     getButtonProps() {
         return {
             className: 'card--button',
-            onClick: this.removeCard.bind(this),
+            onClick: this.removeCard,
             type: 'pay'
         };
     }
@@ -66,7 +63,7 @@ class Card extends React.Component {
         return moment(this.props.date, 'MM/DD/YYYY, HH:mm').isBefore(moment().subtract(5, 'weeks'));
     }
 
-    removeCard() {
+    removeCard = () => {
         var promptResponse = prompt('Why are you removing this card?', 'Payed');
 
         if (!_.isEmpty(this.props) && promptResponse) {

@@ -46,13 +46,13 @@ class Header extends React.Component {
 
     getButtonProps(type) {
         return {
-            onClick: this.openModal.bind(this, type),
+            onClick: () => this.openModal(type),
             className: 'header-button',
             type: 'add'
         };
     }
 
-    openModal(type) {
+    openModal = (type) => {
         var modalTypes = {
             'cards': {
                 callback: this.scrollPage,

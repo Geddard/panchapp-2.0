@@ -18,24 +18,24 @@ class Log extends React.Component {
         this.state = {
             logs: firebaseStore.getLog() || []
         };
-        firebaseStore.addChangeListener(this.loadLogs.bind(this));
+        firebaseStore.addChangeListener(this.loadLogs);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.loadLogs.bind(this));
+        firebaseStore.removeChangeListener(this.loadLogs);
     }
 
     render() {
         return (
             <Loading loading={!this.state.logs.length}>
                 <ul className="log">
-                    {this.state.logs.map(this.renderLog.bind(this))}
+                    {this.state.logs.map(this.renderLog)}
                 </ul>
             </Loading>
         );
     }
 
-    renderLog(log, index) {
+    renderLog = (log, index) => {
         return (
             <RenderWithDelay {...this.getRenderWithDelayProps(index)}>
                 <li className="log--item">
@@ -53,7 +53,7 @@ class Log extends React.Component {
         };
     }
 
-    loadLogs() {
+    loadLogs = () => {
         this.setState({
             logs: firebaseStore.getLog()
         });

@@ -19,11 +19,11 @@ class Users extends React.Component {
         this.state = {
             users: firebaseStore.getUsers()
         };
-        firebaseStore.addChangeListener(this.loadUsers.bind(this));
+        firebaseStore.addChangeListener(this.loadUsers);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.loadUsers.bind(this));
+        firebaseStore.removeChangeListener(this.loadUsers);
     }
 
     render() {
@@ -31,33 +31,31 @@ class Users extends React.Component {
             <div className="users">
                 <Loading loading={!this.state.users.length}>
                     <div className="users--grid">
-                        {this.state.users.map(this.renderUser.bind(this))}
+                        {this.state.users.map(this.renderUser)}
                     </div>
                 </Loading>
             </div>
         );
     }
 
-    renderUser (user, index) {
-        var user = this.state.users[index];
-
+    renderUser = (user, index) => {
         return (
-            <RenderWithDelay {...this.getRenderWithDelayProps(index)}>
+            <RenderWithDelay {...this.getRenderWithDelayProps(index, user)}>
                 <User {...user} />
             </RenderWithDelay>
         );
     }
 
-    getRenderWithDelayProps(index) {
+    getRenderWithDelayProps(index, user) {
         return {
             className: 'users--grid-item',
             animation: 'drop',
-            key: index,
+            key: index + user.displayName,
             wait: index * 50
         };
     }
 
-    loadUsers() {
+    loadUsers = () => {
         this.setState({
             users: firebaseStore.getUsers()
         });

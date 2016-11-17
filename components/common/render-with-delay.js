@@ -11,12 +11,10 @@ class RenderWithDelay extends React.Component {
             hidden: true
         };
         this.timeout = props.wait;
-        this.getClass.bind(this);
-        this.getAnimationTypeClass.bind(this);
 
-        setTimeout(function () {
+        setTimeout(() => {
             this.show();
-        }.bind(this), props.wait);
+        }, props.wait);
     }
 
     componentWillUnmount() {
@@ -40,7 +38,7 @@ class RenderWithDelay extends React.Component {
         this.props.className);
     }
 
-    getAnimationTypeClass() {
+    getAnimationTypeClass = () => {
         var animationType = this.props.animation;
         var hidden = this.state.hidden;
 

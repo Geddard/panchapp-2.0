@@ -15,7 +15,7 @@ class ModalPortal extends React.Component {
     getChildContext() {
         return {
             modalPortalDisplayed: this.state.modalPortalDisplayed,
-            toggleModalPortal: this.toggleModalPortal.bind(this)
+            toggleModalPortal: this.toggleModalPortal
         };
     }
 
@@ -36,7 +36,7 @@ class ModalPortal extends React.Component {
         if (this.state.modalPortalDisplayed) {
             portal = (
                 <div className={this.getClass()}>
-                    <div onClick={this.toggleModalPortal.bind(this)} className="modal-portal--layer-background" />
+                    <div onClick={this.toggleModalPortal} className="modal-portal--layer-background" />
                     <div className="modal-portal--layer-content modal-portal--layer-content_displayed">
                         {this.state.modalToDisplay}
                     </div>
@@ -61,7 +61,7 @@ class ModalPortal extends React.Component {
         });
     }
 
-    toggleModalPortal(modalToDisplay, callback) {
+    toggleModalPortal = (modalToDisplay, callback) => {
         var newState = {};
 
         newState.modalPortalDisplayed = !this.state.modalPortalDisplayed;

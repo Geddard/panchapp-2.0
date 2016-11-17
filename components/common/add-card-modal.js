@@ -29,13 +29,11 @@ class AddCardModal extends React.Component {
             userSelected: ''
         };
 
-        firebaseStore.addChangeListener(this.firebaseStoreChanged.bind(this));
-
-        this.getPickerClass.bind(this);
+        firebaseStore.addChangeListener(this.firebaseStoreChanged);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.firebaseStoreChanged.bind(this));
+        firebaseStore.removeChangeListener(this.firebaseStoreChanged);
     }
 
     render() {
@@ -73,7 +71,7 @@ class AddCardModal extends React.Component {
             contentToRender = this.renderList(type);
         } else {
             contentToRender = (
-                <span onClick={this.openList.bind(this, type)} className={this.getPickerClass(type)}>
+                <span onClick={() => this.openList(type)} className={this.getPickerClass(type)}>
                     {typeSelected}
                 </span>
             );
@@ -85,7 +83,7 @@ class AddCardModal extends React.Component {
     renderSubmitButton() {
         var props = {
             className: this.getSubmitButtonClass(),
-            onClick: this.handleSubmitButtonClick.bind(this),
+            onClick: this.handleSubmitButtonClick,
             type: 'submit'
         };
 
@@ -114,18 +112,18 @@ class AddCardModal extends React.Component {
                 <input {...this.getInputProps()} />
             );
         } else {
-            contentToRender = array.map(this.renderItem.bind(this, type));
+            contentToRender = array.map((item, index) => this.renderItem(type, item, index));
         }
 
         return <span className="add-card-modal--list">{contentToRender}</span>;
     }
 
-    renderItem(type, item, index) {
+    renderItem = (type, item, index) => {
         var text = (type === 'user') ? item.displayName : item;
         var props = {
             className: 'add-card-modal--list-item',
             key: index,
-            onClick: this.handleItemClick.bind(this, text, type)
+            onClick: () => this.handleItemClick(text, type)
         };
 
         return <div {...props}>{text}</div>;
@@ -142,7 +140,7 @@ class AddCardModal extends React.Component {
         return {
             className: 'add-card-modal--other-reason',
             maxLength: 30,
-            onChange: this.updateFieldValue.bind(this),
+            onChange: this.updateFieldValue,
             placeholder: 'Why...?',
             type: 'text'
         };
@@ -155,7 +153,7 @@ class AddCardModal extends React.Component {
         });
     }
 
-    handleSubmitButtonClick() {
+    handleSubmitButtonClick = () => {
         var state = this.state;
 
         if (state.userSelected !== 'Pick User' && (state.reasonSelected || state.otherInputValue)) {
@@ -170,7 +168,7 @@ class AddCardModal extends React.Component {
         }
     }
 
-    handleItemClick(text, type) {
+    handleItemClick = (text, type) => {
         if (type === 'reason' && text.indexOf('Other') !== -1) {
             this.setState({
                 renderOtherInput: true
@@ -189,14 +187,14 @@ class AddCardModal extends React.Component {
         this.setState(newState);
     }
 
-    openList(type) {
+    openList = (type) => {
         var newState = {};
 
         newState[type + 'ListOpened'] = true;
         this.setState(newState);
     }
 
-    updateFieldValue(event) {
+    updateFieldValue = (event) => {
         this.setState({
             otherInputValue: event.target.value
         });
@@ -206,7 +204,7 @@ class AddCardModal extends React.Component {
         return (this.state.userSelected && (this.state.reasonSelected || this.state.otherInputValue));
     }
 
-    firebaseStoreChanged() {
+    firebaseStoreChanged = () => {
         var users = firebaseStore.getUsers();
 
         if (!_.isEqual(users, this.state.users)) {

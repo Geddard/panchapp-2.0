@@ -26,7 +26,7 @@ class User extends React.Component {
         });
 
         var onClick = {
-            'bin': this.removeUser.bind(this)
+            'bin': this.removeUser
         };
 
         return {
@@ -36,7 +36,7 @@ class User extends React.Component {
         };
     }
 
-    removeUser() {
+    removeUser = () => {
         var conf = confirm('Remove user?');
 
         if (!_.isEmpty(this.props) && conf) {

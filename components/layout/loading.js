@@ -13,12 +13,11 @@ class Loading extends React.Component {
         this.state = {
             error: false
         };
-        firebaseStore.addChangeListener(this.setErrorMessage.bind(this));
-        this.renderLoading.bind(this);
+        firebaseStore.addChangeListener(this.setErrorMessage);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.setErrorMessage.bind(this));
+        firebaseStore.removeChangeListener(this.setErrorMessage);
     }
 
     render() {
@@ -29,7 +28,7 @@ class Loading extends React.Component {
         );
     }
 
-    renderLoading() {
+    renderLoading = () => {
         var dataToRender = null;
 
         if (!this.state.error && this.props.loading) {
@@ -57,7 +56,7 @@ class Loading extends React.Component {
         });
     }
 
-    setErrorMessage() {
+    setErrorMessage = () => {
         if (!_.isEmpty(firebaseStore.getError())) {
             this.setState({
                 error: true
