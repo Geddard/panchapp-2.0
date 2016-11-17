@@ -43,7 +43,7 @@ class Users extends React.Component {
 
         return (
             <RenderWithDelay {...this.getRenderWithDelayProps(index)}>
-                <User displayName={user.displayName} />
+                <User {...user} />
             </RenderWithDelay>
         );
     }
