@@ -7,5 +7,37 @@
     overflow: hidden;
     position: relative;
     text-transform: uppercase;
-    width: 500px;
+    width: 300px;
+
+    &--input {
+        background-color: $light-gray;
+        border: 0;
+        border-bottom: 1px solid $google-red;
+        font: font(20px);
+        height: 50px;
+        left: 50%;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        width: 250px;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+
+    &--submit {
+        bottom: 10px;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50px);
+        visibility: hidden;
+
+        &_displayed {
+            transform: translateX(-50%) translateY(0);
+            transition: .5s;
+            visibility: visible;
+        }
+    }
 }
