@@ -2,7 +2,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import _ from 'lodash';
+import _isEmpty from 'lodash/isEmpty';
 
 // LIBS
 import firebaseServiceCaller from 'lib/firebase-service-caller';
@@ -66,7 +66,7 @@ class Card extends React.Component {
     removeCard = () => {
         var promptResponse = prompt('Why are you removing this card?', 'Payed');
 
-        if (!_.isEmpty(this.props) && promptResponse) {
+        if (!_isEmpty(this.props) && promptResponse) {
             firebaseServiceCaller.delete('cards', this.props, promptResponse);
         }
     }

@@ -1,7 +1,7 @@
 // VENDOR
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import _isEmpty from 'lodash/isEmpty';
 
 // LIBS
 import firebaseServiceCaller from 'lib/firebase-service-caller';
@@ -39,7 +39,7 @@ class User extends React.Component {
     removeUser = () => {
         var conf = confirm('Remove user?');
 
-        if (!_.isEmpty(this.props) && conf) {
+        if (!_isEmpty(this.props) && conf) {
             firebaseServiceCaller.delete('users', this.props);
         }
     }

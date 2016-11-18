@@ -1,5 +1,6 @@
 // VENDOR LIBS
-import _ from 'lodash';
+import _extend from 'lodash/extend';
+import _isFunction from 'lodash/isFunction';
 import EventEmitter from 'events';
 
 // FLUX
@@ -28,10 +29,10 @@ class DataStore extends EventEmitter {
     }
 
     setState(newState, callback) {
-        _.extend(this.state, newState);
+        _extend(this.state, newState);
         this.emitChange();
 
-        if (_.isFunction(callback)) {
+        if (_isFunction(callback)) {
             callback();
         }
     }

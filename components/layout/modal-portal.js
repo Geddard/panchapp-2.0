@@ -1,6 +1,7 @@
 // VENDOR LIBS
 import React from 'react';
 import classNames from 'classnames';
+import _isFunction from 'lodash/isFunction';
 
 class ModalPortal extends React.Component {
 
@@ -75,7 +76,7 @@ class ModalPortal extends React.Component {
     }
 
     executeCallback() {
-        if (!this.state.modalPortalDisplayed && this.state.closeCallback) {
+        if (!this.state.modalPortalDisplayed && _isFunction(this.state.closeCallback)) {
             // TODO: Determine success using store listener
             this.state.closeCallback(false);
         }

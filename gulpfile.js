@@ -45,7 +45,7 @@ gulp.task('bundle', function () {
             paths: [path.join(__dirname)],
         })
         .transform('babelify', {
-            plugins: ['transform-class-properties'],
+            plugins: ['transform-class-properties', 'lodash'],
             presets: ['es2015', 'react']
         })
         .bundle()
@@ -61,7 +61,7 @@ gulp.task('bundle-prod', function () {
             paths: [path.join(__dirname)],
         })
         .transform('babelify', {
-            plugins: ['transform-class-properties'],
+            plugins: ['transform-class-properties', 'lodash'],
             presets: ['es2015', 'react']
         })
         .bundle()

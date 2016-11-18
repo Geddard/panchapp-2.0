@@ -2,7 +2,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import _ from 'lodash';
+import _isEqual from 'lodash/isEqual';
 
 // LIBS
 import { instance as firebaseStore } from 'lib/firebase-store';
@@ -207,7 +207,7 @@ class AddCardModal extends React.Component {
     firebaseStoreChanged = () => {
         var users = firebaseStore.getUsers();
 
-        if (!_.isEqual(users, this.state.users)) {
+        if (!_isEqual(users, this.state.users)) {
             this.setState({users: users});
         }
     }

@@ -1,6 +1,6 @@
 // VENDOR LIBS
 import React from 'react';
-import _ from 'lodash';
+import _isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 
 // LIBS
@@ -57,7 +57,7 @@ class Loading extends React.Component {
     }
 
     setErrorMessage = () => {
-        if (!_.isEmpty(firebaseStore.getError())) {
+        if (!_isEmpty(firebaseStore.getError())) {
             this.setState({
                 error: true
             });
