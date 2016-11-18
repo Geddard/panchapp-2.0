@@ -1,6 +1,5 @@
 // VENDOR LIBS
 var browserify = require('browserify');
-var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
@@ -75,10 +74,9 @@ gulp.task('sass', function () {
     gulp.src(scssPaths)
         .pipe(scsslint({config: 'lint.yml'}))
         .pipe(concat('globals.scss'))
-        .pipe(sass())
+        .pipe(sass({outputStyle: 'compressed'}))
         .on('error', handleErrors)
         .pipe(concat('styles.css'))
-        .pipe(cleancss())
         .pipe(gulp.dest('dist'))
         .pipe(livereload());
 });
@@ -88,7 +86,6 @@ gulp.task('sass-prod', function () {
         .pipe(concat('globals.scss'))
         .pipe(sass())
         .pipe(concat('styles.css'))
-        .pipe(cleancss())
         .pipe(gulp.dest('dist'));
 });
 
