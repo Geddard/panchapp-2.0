@@ -1,46 +1,21 @@
 // VENDOR
 import React from 'react';
 import classNames from 'classnames';
+import _isEmpty from 'lodash/isEmpty';
+
+// LIBS
+import firebaseServiceCaller from 'lib/firebase-service-caller';
 
 class User extends React.Component {
 
-    constructor() {
-        super();
-
-        this.timeout = null;
-        this.state = {
-            hidden: true,
-            unmounted: false
-        };
-    }
-
-    componentWillMount() {
-        this.timeout = this.props.wait; //TODO: extract timeout functionality to a new wrapper
-
-        setTimeout(function () {
-            this.show();
-        }.bind(this), this.timeout);
-    }
-
-    componentWillUnmount() {
-        this.timeout = null;
-    }
-
     render() {
         return (
-            <div className={this.getClass()}>
+            <div className="user">
                 <div className="user--name">{this.props.displayName}</div>
                 <img {...this.getImgProps('pencil')} />
                 <img {...this.getImgProps('bin')} />
             </div>
         );
-    }
-
-    getClass() {
-        return classNames({
-            'user': true,
-            'user_displayed': !this.state.hidden
-        });
     }
 
     getImgProps(type) {
@@ -50,18 +25,30 @@ class User extends React.Component {
             'user--icon-bin' : type === 'bin'
         });
 
+        var onClick = {
+            'bin': this.removeUser
+        };
+
         return {
             className: classes,
+            onClick: onClick[type],
             src: 'resources/' + type + '.png'
         };
     }
 
-    show() {
-        if (this.timeout !== null) {
-            this.setState({hidden: false});
+    removeUser = () => {
+        var conf = confirm('Remove user?');
+
+        if (!_isEmpty(this.props) && conf) {
+            firebaseServiceCaller.delete('users', this.props);
         }
     }
 }
+
+User.propTypes = {
+    displayName: React.PropTypes.string.isRequired,
+    id: React.PropTypes.string.isRequired
+};
 
 export default User;
 

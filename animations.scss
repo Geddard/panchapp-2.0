@@ -1,8 +1,11 @@
-$fade-in: fade-in 2s;
-$loading: loading .4s;
-$modal-grow: modal-grow .5s;
-$slide-in-left: slide-in-left;
+$drop-from-above: drop-from-above;
+$fade-in: fade-in;
 $grow-from-back: grow-from-back;
+$loading: loading;
+$modal-grow: modal-grow;
+$slide-in-fade: slide-in-fade;
+$slide-in-left: slide-in-left;
+$typewrite: typing 1.5s steps(50, end);
 
 @keyframes fade-in {
     0% {
@@ -63,5 +66,41 @@ $grow-from-back: grow-from-back;
 
     100% {
         transform: scale(1);
+    }
+}
+
+@keyframes slide-in-fade {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes drop-from-above {
+    0% {
+        transform: translateY(-100px);
+    }
+
+    50% {
+        transform: translateY(30px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
     }
 }

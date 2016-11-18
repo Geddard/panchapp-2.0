@@ -6,6 +6,7 @@ import zenscroll from 'zenscroll';
 // COMMON COMPONENTS
 import Button from 'components/common/button';
 import AddCardModal from 'components/common/add-card-modal';
+import AddUserModal from 'components/common/add-user-modal';
 
 class Header extends React.Component {
 
@@ -28,7 +29,9 @@ class Header extends React.Component {
         var location = this.context.location;
 
         if (location === 'cards' || !location)  {
-            buttonToRender = <Button {...this.getButtonProps()}>+</Button>;
+            buttonToRender = <Button {...this.getButtonProps('cards')}>+</Button>;
+        } else if (location === 'users') {
+            buttonToRender = <Button {...this.getButtonProps('users')}>+</Button>;
         }
 
         return buttonToRender;
@@ -41,18 +44,29 @@ class Header extends React.Component {
         });
     }
 
-    getButtonProps() {
+    getButtonProps(type) {
         return {
-            onClick: this.openAddCardModal.bind(this),
+            onClick: () => this.openModal(type),
             className: 'header-button',
             type: 'add'
         };
     }
 
-    openAddCardModal() {
+    openModal = (type) => {
+        var modalTypes = {
+            'cards': {
+                callback: this.scrollPage,
+                jsx: <AddCardModal />
+            },
+            'users': {
+                callback: null,
+                jsx: <AddUserModal />
+            }
+        };
+
         this.context.toggleModalPortal(
-            <AddCardModal />,
-            this.scrollPage
+            modalTypes[type].jsx,
+            modalTypes[type].callback
         );
     }
 

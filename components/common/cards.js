@@ -9,6 +9,7 @@ import Loading from 'components/layout/loading';
 
 // COMMON COMPONENTS
 import Card from 'components/common/card';
+import RenderWithDelay from 'components/common/render-with-delay';
 
 class Cards extends React.Component {
 
@@ -18,36 +19,41 @@ class Cards extends React.Component {
         this.state = {
             cards: firebaseStore.getCards()
         };
-        firebaseStore.addChangeListener(this.loadCards.bind(this));
+        firebaseStore.addChangeListener(this.loadCards);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.loadCards.bind(this));
+        firebaseStore.removeChangeListener(this.loadCards);
     }
 
     render() {
         return (
             <div className="cards">
                 <Loading loading={!this.state.cards.length}>
-                    {this.state.cards.map(this.renderCard.bind(this))}
+                    {this.state.cards.map(this.renderCard)}
                 </Loading>
             </div>
         );
     }
 
-    renderCard (card, index) {
-        return <Card {...this.getCardProps(card, index)} />;
+    renderCard = (card, index) => {
+        return (
+            <RenderWithDelay {...this.getRenderWithDelayProps(index)}>
+                <Card {...card} />
+            </RenderWithDelay>
+        );
     }
 
-    getCardProps(card, index) {
+    getRenderWithDelayProps(index) {
         return {
-            cardData: card,
+            className: 'cards--item',
+            animation: 'slide-fade',
             key: index,
             wait: index * 100
         };
     }
 
-    loadCards() {
+    loadCards = () => {
         this.setState({
             cards: firebaseStore.getCards()
         });

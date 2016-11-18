@@ -1,4 +1,7 @@
 .log {
+    height: 600px;
+    overflow: auto;
+    width: 588px;
 
     &--item {
         border-left: 1px solid $light-gray;

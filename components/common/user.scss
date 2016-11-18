@@ -6,14 +6,6 @@
     min-width: 100px;
     position: relative;
     text-align: center;
-    transform: translateX(-200px) translateY(-100px);
-    visibility: hidden;
-
-    &_displayed {
-        transform: translateX(0) translateY(0);
-        transition: .2s all;
-        visibility: visible;
-    }
 
     &--name {
         font: font(25px);

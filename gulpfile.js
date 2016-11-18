@@ -1,7 +1,5 @@
 // VENDOR LIBS
 var browserify = require('browserify');
-var streamify = require('gulp-streamify');
-var cleancss = require('gulp-clean-css');
 var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
@@ -13,6 +11,7 @@ var rimraf = require('rimraf');
 var sass = require('gulp-sass');
 var scsslint = require('gulp-scss-lint');
 var source = require('vinyl-source-stream');
+var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
 
 var paths = [
@@ -45,7 +44,10 @@ gulp.task('bundle', function () {
             entries: 'main.js', debug: true,
             paths: [path.join(__dirname)],
         })
-        .transform('babelify', {presets: ['es2015', 'react']})
+        .transform('babelify', {
+            plugins: ['transform-class-properties', 'lodash'],
+            presets: ['es2015', 'react']
+        })
         .bundle()
         .on('error', handleErrors)
         .pipe(source('main.js'))
@@ -58,7 +60,10 @@ gulp.task('bundle-prod', function () {
             entries: 'main.js',
             paths: [path.join(__dirname)],
         })
-        .transform('babelify', {presets: ['es2015', 'react']})
+        .transform('babelify', {
+            plugins: ['transform-class-properties', 'lodash'],
+            presets: ['es2015', 'react']
+        })
         .bundle()
         .pipe(source('main.js'))
         .pipe(streamify(uglify()))
@@ -69,10 +74,9 @@ gulp.task('sass', function () {
     gulp.src(scssPaths)
         .pipe(scsslint({config: 'lint.yml'}))
         .pipe(concat('globals.scss'))
-        .pipe(sass())
+        .pipe(sass({outputStyle: 'compressed'}))
         .on('error', handleErrors)
         .pipe(concat('styles.css'))
-        .pipe(cleancss())
         .pipe(gulp.dest('dist'))
         .pipe(livereload());
 });
@@ -82,7 +86,6 @@ gulp.task('sass-prod', function () {
         .pipe(concat('globals.scss'))
         .pipe(sass())
         .pipe(concat('styles.css'))
-        .pipe(cleancss())
         .pipe(gulp.dest('dist'));
 });
 
@@ -106,10 +109,13 @@ gulp.task('watch', ['copy', 'sass'], function () {
     gulp.watch(scssPaths, ['sass']);
 });
 
-gulp.task('start',['rimraf', 'watch'], function () {
+gulp.task('start', ['rimraf', 'watch'], function () {
     nodemon({
         script: 'server.js',
-        watch: 'server.js'
+        watch: 'server.js',
+        env: {
+            'NODE_ENV': 'development'
+        }
     });
 });
 

@@ -9,20 +9,11 @@
     padding: 15px 10px;
     position: relative;
     text-align: left;
-    transform: translateX(-20px);
     vertical-align: top;
-    visibility: hidden;
     word-wrap: break-word;
 
     &_really-old {
         background: lighten($google-red, 35%);
-    }
-
-    &_displayed {
-        opacity: 1;
-        transform: translateX(0);
-        transition: 1s all;
-        visibility: visible;
     }
 
     &--button {

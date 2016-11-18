@@ -1,0 +1,22 @@
+.render-with-delay {
+    visibility: hidden;
+
+    &_displayed {
+        transition: 1s all;
+        visibility: visible;
+    }
+
+    &_slide-fade {
+        animation: $slide-in-fade 1s;
+    }
+
+    &_drop {
+        animation: $drop-from-above .5s;
+    }
+
+    &_typewrite {
+        animation: $typewrite;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}

@@ -5,7 +5,7 @@
     transition: .2s;
 
     &_add {
-        animation: $fade-in;
+        animation: $fade-in 1s;
         background-color: $google-red;
         border: 0;
         border-radius: 50%;

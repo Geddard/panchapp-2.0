@@ -20,7 +20,7 @@
         }
 
         &-content {
-            animation: $modal-grow;
+            animation: $modal-grow .5s;
             left: 50%;
             position: fixed;
             top: 50%;

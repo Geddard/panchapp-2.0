@@ -1,7 +1,7 @@
 // VENDOR LIBS
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import _get from 'lodash/get';
 
 // LIBS
 import FirebaseApp from 'lib/firebase-app';
@@ -23,9 +23,9 @@ class App extends React.Component {
 
     getChildContext() {
         return {
-            location: _.get(this.props, 'location.pathname', '').replace('/', ''),
+            location: _get(this.props, 'location.pathname', '').replace('/', ''),
             sideBarOpened: this.state.sideBarOpened,
-            toggleSideBar: this.toggleSideBar.bind(this)
+            toggleSideBar: this.toggleSideBar
         };
     }
 
@@ -52,7 +52,7 @@ class App extends React.Component {
         });
     }
 
-    toggleSideBar() {
+    toggleSideBar = () => {
         this.setState({
             sideBarOpened: !this.state.sideBarOpened
         });

@@ -2,8 +2,8 @@
     background-color: $dark-gray;
     text-align: center;
 
-    .card {
-        animation: $fade-in;
+    &--item {
+        display: inline-block;
     }
 }
 

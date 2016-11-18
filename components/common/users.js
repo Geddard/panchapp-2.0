@@ -9,6 +9,7 @@ import Loading from 'components/layout/loading';
 
 // COMMON COMPONENTS
 import User from 'components/common/user';
+import RenderWithDelay from 'components/common/render-with-delay';
 
 class Users extends React.Component {
 
@@ -18,11 +19,11 @@ class Users extends React.Component {
         this.state = {
             users: firebaseStore.getUsers()
         };
-        firebaseStore.addChangeListener(this.loadUsers.bind(this));
+        firebaseStore.addChangeListener(this.loadUsers);
     }
 
     componentWillUnmount() {
-        firebaseStore.removeChangeListener(this.loadUsers.bind(this));
+        firebaseStore.removeChangeListener(this.loadUsers);
     }
 
     render() {
@@ -30,24 +31,31 @@ class Users extends React.Component {
             <div className="users">
                 <Loading loading={!this.state.users.length}>
                     <div className="users--grid">
-                        {this.state.users.map(this.renderUser.bind(this))}
+                        {this.state.users.map(this.renderUser)}
                     </div>
                 </Loading>
             </div>
         );
     }
 
-    renderUser (user, index) {
-        var user = this.state.users[index];
-
+    renderUser = (user, index) => {
         return (
-            <div key={index} className="users--grid-item">
-                <User wait={index * 50} displayName={user.displayName} />
-            </div>
+            <RenderWithDelay {...this.getRenderWithDelayProps(index, user)}>
+                <User {...user} />
+            </RenderWithDelay>
         );
     }
 
-    loadUsers() {
+    getRenderWithDelayProps(index, user) {
+        return {
+            className: 'users--grid-item',
+            animation: 'drop',
+            key: index + user.displayName,
+            wait: index * 50
+        };
+    }
+
+    loadUsers = () => {
         this.setState({
             users: firebaseStore.getUsers()
         });
