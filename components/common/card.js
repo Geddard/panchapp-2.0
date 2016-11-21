@@ -22,7 +22,7 @@ class Card extends React.Component {
 
     render() {
         return (
-            <div className={this.getClass()}>
+            <div id={this.props.id} className={this.getClass()}>
                 <Button {...this.getButtonProps()}>✖</Button>
                 <div className="card--info">
                     <div className="card--name">{this.props.name}</div>

@@ -70,12 +70,13 @@ class AddUserModal extends React.Component {
         var state = this.state;
 
         if (state.newUserName.length > 1) {
+            this.context.preventCloseOnClick();
             this.setState({
                 loading: true
             });
             firebaseServiceCaller.update('users', {
                 displayName: state.newUserName
-            }, this.context.toggleModalPortal);
+            }, () => this.context.toggleModalPortal(null));
         }
     }
 
@@ -87,6 +88,7 @@ class AddUserModal extends React.Component {
 }
 
 AddUserModal.contextTypes = {
+    preventCloseOnClick: React.PropTypes.func,
     toggleModalPortal: React.PropTypes.func
 };
 

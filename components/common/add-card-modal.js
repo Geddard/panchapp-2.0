@@ -1,8 +1,9 @@
 // VENDOR LIBS
-import React from 'react';
+import _isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import moment from 'moment';
-import _isEqual from 'lodash/isEqual';
+import React from 'react';
+import zenscroll from 'zenscroll';
 
 // LIBS
 import { instance as firebaseStore } from 'lib/firebase-store';
@@ -157,6 +158,7 @@ class AddCardModal extends React.Component {
         var state = this.state;
 
         if (state.userSelected !== 'Pick User' && (state.reasonSelected || state.otherInputValue)) {
+            this.context.preventCloseOnClick();
             this.setState({
                 loading: true
             });
@@ -164,7 +166,7 @@ class AddCardModal extends React.Component {
                 cat: state.reasonSelected || state.otherInputValue,
                 date: moment().utcOffset('-03:00').format('MM/DD/YYYY, HH:mm'),
                 name: state.userSelected
-            }, this.context.toggleModalPortal);
+            }, (cardId) => this.context.toggleModalPortal(null, () => this.scrollPage(cardId)));
         }
     }
 
@@ -175,6 +177,14 @@ class AddCardModal extends React.Component {
             });
         } else {
             this.setItemSelected(text, type);
+        }
+    }
+
+    scrollPage(cardId) {
+        var node = document.getElementById(cardId);
+
+        if (node) {
+            zenscroll.to(node);
         }
     }
 
@@ -214,6 +224,7 @@ class AddCardModal extends React.Component {
 }
 
 AddCardModal.contextTypes = {
+    preventCloseOnClick: React.PropTypes.func,
     toggleModalPortal: React.PropTypes.func
 };
 

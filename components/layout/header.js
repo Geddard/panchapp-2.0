@@ -1,7 +1,6 @@
 // VENDOR LIBS
 import React from 'react';
 import classNames from 'classnames';
-import zenscroll from 'zenscroll';
 
 // COMMON COMPONENTS
 import Button from 'components/common/button';
@@ -53,28 +52,9 @@ class Header extends React.Component {
     }
 
     openModal = (type) => {
-        var modalTypes = {
-            'cards': {
-                callback: this.scrollPage,
-                jsx: <AddCardModal />
-            },
-            'users': {
-                callback: null,
-                jsx: <AddUserModal />
-            }
-        };
+        var modalToOpen = ('cards' === type) ? <AddCardModal /> : <AddUserModal />;
 
-        this.context.toggleModalPortal(
-            modalTypes[type].jsx,
-            modalTypes[type].callback
-        );
-    }
-
-    scrollPage(success) {
-        // TODO: maybe scroll to the card when added using actions?
-        if (success) {
-            zenscroll.toY(document.documentElement.scrollHeight);
-        }
+        this.context.toggleModalPortal(modalToOpen);
     }
 }
 
