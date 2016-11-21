@@ -95,7 +95,7 @@ class ModalPortal extends React.Component {
 
     executeCallback() {
         if (!this.state.modalPortalDisplayed && _isFunction(this.state.closeCallback)) {
-            this.state.closeCallback(false);
+            this.state.closeCallback();
         }
     }
 
