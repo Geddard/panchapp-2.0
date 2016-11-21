@@ -1,7 +1,8 @@
 // VENDOR LIBS
-import React from 'react';
-import classNames from 'classnames';
+import _isEmpty from 'lodash/isEmpty';
 import _isFunction from 'lodash/isFunction';
+import classNames from 'classnames';
+import React from 'react';
 
 class ModalPortal extends React.Component {
 
@@ -9,15 +10,25 @@ class ModalPortal extends React.Component {
         super();
         this.state = {
             modalToDisplay: null,
-            portalDisplayed: false
+            portalDisplayed: false,
+            preventCloseOnClick: false
         };
     }
 
     getChildContext() {
         return {
             modalPortalDisplayed: this.state.modalPortalDisplayed,
+            preventCloseOnClick: this.preventCloseOnClick,
             toggleModalPortal: this.toggleModalPortal
         };
+    }
+
+    componentWillUpdate() {
+        if (this.state.preventCloseOnClick) {
+            this.setState({
+                preventCloseOnClick: false
+            });
+        }
     }
 
     render() {
@@ -65,24 +76,33 @@ class ModalPortal extends React.Component {
     toggleModalPortal = (modalToDisplay, callback) => {
         var newState = {};
 
-        newState.modalPortalDisplayed = !this.state.modalPortalDisplayed;
+        if (!this.state.preventCloseOnClick || !modalToDisplay) {
+            newState.modalPortalDisplayed = !this.state.modalPortalDisplayed;
 
-        if (modalToDisplay) {
-            newState.modalToDisplay = modalToDisplay;
+            if (modalToDisplay) {
+                newState.modalToDisplay = modalToDisplay;
+            }
+
+            if (_isFunction(callback)) {
+                newState.closeCallback = callback;
+            }
         }
 
-        if (_isFunction(callback)) {
-            newState.closeCallback = callback;
+        if (!_isEmpty(newState)) {
+            this.setState(newState, this.executeCallback);
         }
-
-        this.setState(newState, this.executeCallback);
     }
 
     executeCallback() {
         if (!this.state.modalPortalDisplayed && _isFunction(this.state.closeCallback)) {
-            // TODO: Determine success using store listener
             this.state.closeCallback(false);
         }
+    }
+
+    preventCloseOnClick = () => {
+        this.setState({
+            preventCloseOnClick: true
+        });
     }
 }
 
@@ -92,6 +112,7 @@ ModalPortal.propTypes = {
 
 ModalPortal.childContextTypes = {
     modalPortalDisplayed: React.PropTypes.bool,
+    preventCloseOnClick: React.PropTypes.func,
     toggleModalPortal: React.PropTypes.func
 };
 

@@ -158,6 +158,7 @@ class AddCardModal extends React.Component {
         var state = this.state;
 
         if (state.userSelected !== 'Pick User' && (state.reasonSelected || state.otherInputValue)) {
+            this.context.preventCloseOnClick();
             this.setState({
                 loading: true
             });
@@ -165,7 +166,7 @@ class AddCardModal extends React.Component {
                 cat: state.reasonSelected || state.otherInputValue,
                 date: moment().utcOffset('-03:00').format('MM/DD/YYYY, HH:mm'),
                 name: state.userSelected
-            }, this.handleCardAdded);
+            }, (cardId) => this.context.toggleModalPortal(null, () => this.scrollPage(cardId)));
         }
     }
 
@@ -177,10 +178,6 @@ class AddCardModal extends React.Component {
         } else {
             this.setItemSelected(text, type);
         }
-    }
-
-    handleCardAdded = (cardId) => {
-        this.context.toggleModalPortal(null, () => this.scrollPage(cardId));
     }
 
     scrollPage(cardId) {
@@ -227,6 +224,7 @@ class AddCardModal extends React.Component {
 }
 
 AddCardModal.contextTypes = {
+    preventCloseOnClick: React.PropTypes.func,
     toggleModalPortal: React.PropTypes.func
 };
 
